@@ -1,0 +1,32 @@
+<script>
+    document.write("<h4>Nama : Devia Fitri Nopiani");
+    document.write("<br>Grup : 2 FDW <br></h4><hr>");
+    let nama = "Ridwan";
+    let jabatan = "Manager"
+    let gaji = 0;
+   let status = "Menikah";
+
+   switch(jabatan){
+    case 'Manager' : gaji = 15000000; break;
+    case 'Asisten Manager' : gaji = 10000000; break;
+    case 'Staff' : gaji = 5000000; break;
+    default : gaji = 0;
+   }
+    let tunjKel = 0.20 * gaji;
+    let tunjJbt = 0.15 * gaji;
+    let bpjs = 0.10 * gaji;
+    if(status == 'Menikah') tunjKel = 0.20 * gaji;
+    else tunjKel = 0;
+    let totalgaji = gaji + tunjJbt + bpjs + tunjKel;
+
+
+    document.write("Nama : " + nama +
+    "<br> Jabatan : " + jabatan + 
+    "<br> Gaji : " + gaji +
+    "<br> Status : " + status +
+    "<br> Tunjangan Jabatan : " + tunjJbt +
+    "<br> Tunjangan BPJS : " + bpjs +
+    "<br> Tunjangan Keluarga : " + tunjKel +
+    "<br> Total Gaji : " + totalgaji);
+    document.write("<hr>");
+</script>

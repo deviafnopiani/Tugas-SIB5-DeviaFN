@@ -1,0 +1,65 @@
+<script>
+    let p1 = {"nama" : "pegawai 1","jabatan" : "Manager"};
+    let p2 = {"nama" : "pegawai 2","jabatan" : "Manager"};
+    let p3 = {"nama" : "pegawai 3","jabatan" : "Asisten Manager"};
+    let p4 = {"nama" : "pegawai 4","jabatan" : "Asisten Manager"};
+    let p5 = {"nama" : "pegawai 5","jabatan" : "Asisten Manager"};
+    let p6 = {"nama" : "pegawai 6","jabatan" : "Asisten Manager"};
+    let p7 = {"nama" : "pegawai 7","jabatan" : "Supervisor"};
+    let p8 = {"nama" : "pegawai 8","jabatan" : "Supervisor"};
+    let p9 = {"nama" : "pegawai 9","jabatan" : "Staff"};
+    let p10 = {"nama" : "pegawai 10","jabatan" : "Staff"};
+
+    let pegawai = [p1,p2,p3,p4,p5,p6,p7,p8,p9,p10];
+    
+</script>
+ <table style="padding: 10; text-align: center; width: 100%;">
+    <thead>
+        <tr>
+            <th>Nama</th>
+            <th>Jabatan</th>
+            <th>Gaji</th>
+            <th>Tunjangan Jabatan</th>
+            <th>Tunjangan Kesehatan</th>
+            <th>Gaji Kotor</th>
+            <th>Zakat</th>
+            <th>Take Home Pay</th>
+        </tr>
+    </thead>
+    <tbody>
+        <script>
+            for(p of pegawai){
+        if(jabatan ='Manager') gapok = 15000000;
+        else if(jabatan = 'Asisten Manager') gapok = 10000000; 
+        else if(jabatan = 'Supervisor') gapok = 7000000;
+        else if(jabatan = 'Staff') gapok = 4000000;
+
+        switch(gapok){
+    case 'Manager' : gapok = 15000000; break;
+    case 'Asisten Manager' : gapok = 10000000; break;
+    case 'Supervisor' : gapok = 7000000; break;
+    case 'Staff' : gapok = 5000000; break;
+   }
+   
+   let agama = ("nama" % 2 === 0) ? 'nonmuslim' : 'muslim';
+   let warna = (agama == 'nonmuslim') ? 'yellow' : 'blue';
+    let tunjJbt = 0.20 * gapok;
+    let tunjKes = 0.10 * gapok;
+    let gajikotor = gapok + tunjJbt + tunjKes;
+    let zakat = agama == 'muslim' && gajikotor >= 7000000 ? 0.025 * gajikotor : 0;
+    let takehome = gajikotor - zakat;
+
+        document.write(`<tr>
+            <td>${p.nama}</td>
+            <td>${p.jabatan}</td>
+            <td>${gapok}</td>
+            <td>${tunjJbt}</td>
+            <td>${tunjKes}</td>
+            <td>${gajikotor}</td>
+            <td>${zakat}</td>
+            <td>${takehome}</td>
+            `);
+            }
+    </script>
+</tbody>
+</table> 

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tugas 4 JS</title>
+</head>
+<body>
+    <form id="form">
+        <table style="width: 50%; background-color: thistle; text-align: center; border: 1;">
+        <tr>
+            <th colspan="2">Form Belanja Elektronik</th>
+        </tr>
+        <tr>
+        <td><label for="">Nama</label></td>
+        <td><input type="text" name="nama" id="" placeholder="Masukkan Nama Pembeli"></td>
+        </tr>
+        <tr>
+            <td><label for="produk">Pilih Produk</label></td>
+            <td><select name="produk" id="produk">
+                <option value="tv">TV</option>
+                <option value="kulkas">Kulkas</option>
+                <option value="ac">AC</option>
+            </select></td>
+            </tr>
+            <td><label for="">Jumlah Item</label></td>
+            <td><input type="number" name="jumlah" id="" placeholder="jumlah item"></td>
+            <tr>
+                <th colspan="2"><button type="button" onclick="dataPembeli()">Submit</button></th>
+            </tr>
+    </table>
+    </form>
+    <p id="hasil"></p>
+    <script src="script.js"></script>
+    <script>
+       switch(barang){
+        case 'TV' : harga_satuan = 2000000; break;
+        case 'Kulkas' : harga_satuan = 4000000; break;
+        case 'AC' : harga_satuan = 3000000; break;
+        default: harga_satuan = 0;
+    }
+    let bruto = harga_satuan * jmlBeli;
+    let diskon = 0;
+    if(barang == 'TV') diskon = 0.3 * bruto;
+    else if(barang== 'AC') diskon = 0.2 * bruto;
+    else diskon = 0.15 * bruto; 
+    let hasil_diskon = bruto - diskon;
+    let jmlBeli = '';
+    let ppn = bruto * 0.10 - diskon;
+    let hrgabyr = (bruto - diskon) + ppn
+    document.write("<h1> Data Pembelian </h1>");
+   document.write("<br> Pembeli : " + pembeli +
+   "<br> Barang : " + barang +
+   "Jumlah Beli Barang : " + jmlBeli +
+   "<br> Harga Satuan : " + harga_satuan +
+   "<br> Total Harga : " + bruto +
+   "<br> Diskon : " + diskon +
+   "<br> PPN : " + ppn + 
+   "<br> Total harga : " + hrgabyr);
+</script>
+    </script>
+</body>
+</html>

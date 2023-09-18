@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="js/code.jquery.com_jquery-3.7.1.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <script type="text/javascript"></script>
+    <script>
+        $("document").ready(function(){
+            $("#div1").mouseover(function(){
+                $this.css({
+                bakcground: "blue"
+                });
+            });
+            });
+            $("#div").mouseout(function(){
+                $(this).css({
+                    bakcground: "blue"
+                });
+            });
+            $("#div2").mouseover(function(){
+                $("#paragraf2").html("moto");
+                });
+                $("#div").mouseout(function(){
+                $(this).css({
+                    bakcground: "blue"
+                });
+            });
+            $("#div3").mouseover(function(){
+                $("#paragraf3").html("keahlian");
+                });
+</script>
+</head>
+<body>
+    <h2>Tugas JQuery Devia Fitri N</h2>
+    <div id="div1">
+        <p> Nama : Devia Fitri N</p>
+        <p> Asal : Bandung</p>
+    </div>
+    <div id="div2">
+        <p>Hidup bukan saling mendahului, bermimpilah sendiri-sendiri.-Hindia</p>
+    </div>
+    <div id="div3">
+        <p>Keahlian</p>
+    </div>
+</body>
+</html>

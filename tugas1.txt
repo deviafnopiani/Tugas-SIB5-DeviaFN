@@ -1,0 +1,62 @@
+// membuat database
+MariaDB [(none)]> create database dbpegawai;
+
+//memindahkan ke dbpegawai
+MariaDB [(none)]> use dbpegawai;
+
+//membuat table pegawai
+MariaDB [dbpegawai]> create table pegawai (
+    -> id INT PRIMARY KEY,
+    -> nip char(5) NOT NULL UNIQUE,
+    -> nama varchar (30) NOT NULL,
+    -> gender ENUM ('L','P') NOT NULL,
+    -> umur int NOT NULL,
+    -> berat_badan float );
+Query OK, 0 rows affected (0.305 sec)
+
+//melihat table yang sudah dibuat
+MariaDB [dbpegawai]> show tables;
++---------------------+
+| Tables_in_dbpegawai |
++---------------------+
+| pegawai             |
++---------------------+
+1 row in set (0.001 sec)
+
+//melihat database yang sudah dibuat
+MariaDB [dbpegawai]> show databases;
++--------------------+
+| Database           |
++--------------------+
+| auth               |
+| db                 |
+| db_bsm             |
+| db_dev             |
+| db_login           |
+| db_web             |
+| dbpegawai          |
+| information_schema |
+| mysql              |
+| pegawaisib5        |
+| performance_schema |
+| phpmyadmin         |
+| test               |
+| tgs_login          |
+| tokosib5           |
+| tugas_web          |
++--------------------+
+16 rows in set (0.001 sec)
+
+//melihat deskripsi tabel pegawai yang sudah dibuat
+MariaDB [dbpegawai]> desc pegawai;
++-------------+---------------+------+-----+---------+-------+
+| Field       | Type          | Null | Key | Default | Extra |
++-------------+---------------+------+-----+---------+-------+
+| id          | int(11)       | NO   | PRI | NULL    |       |
+| nip         | char(5)       | NO   | UNI | NULL    |       |
+| nama        | varchar(30)   | NO   |     | NULL    |       |
+| gender      | enum('L','P') | NO   |     | NULL    |       |
+| umur        | int(11)       | NO   |     | NULL    |       |
+| berat_badan | float         | YES  |     | NULL    |       |
++-------------+---------------+------+-----+---------+-------+
+6 rows in set (0.139 sec)

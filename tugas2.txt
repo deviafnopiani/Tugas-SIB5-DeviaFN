@@ -1,0 +1,133 @@
+//masuk database 
+MariaDB [(none)]> show databases;
++--------------------+
+| Database           |
++--------------------+
+| auth               |
+| db                 |
+| db_bsm             |
+| db_dev             |
+| db_login           |
+| db_web             |
+| dbpegawai          |
+| information_schema |
+| mysql              |
+| pegawaisib5        |
+| performance_schema |
+| phpmyadmin         |
+| test               |
+| tgs_login          |
+| tokosib5           |
+| tugas_web          |
++--------------------+
+16 rows in set (0.339 sec)
+
+//memindahkan database ke tokosib5
+MariaDB [(none)]> use tokosib5;
+Database changed
+
+//melihat tabel yang ada di db tokosib5
+MariaDB [tokosib5]> show tables;
++--------------------+
+| Tables_in_tokosib5 |
++--------------------+
+| jenis_produk       |
+| produk             |
++--------------------+
+2 rows in set (0.063 sec)
+
+//membuat tabel vendor 
+MariaDB [tokosib5]> create table vendor (
+    -> vendor_id INT PRIMARY KEY AUTO_INCREMENT,
+    -> nomor VARCHAR (20) NOT NULL,
+    -> nama VARCHAR (25) NOT NULL,
+    -> kota VARCHAR (25) NOT NULL,
+    -> kontak VARCHAR (25) NOT NULL );
+Query OK, 0 rows affected (1.385 sec)
+
+//melihat desc tabel vendor
+MariaDB [tokosib5]> desc vendor;
++-----------+-------------+------+-----+---------+----------------+
+| Field     | Type        | Null | Key | Default | Extra          |
++-----------+-------------+------+-----+---------+----------------+
+| vendor_id | int(11)     | NO   | PRI | NULL    | auto_increment |
+| nomor     | varchar(20) | NO   |     | NULL    |                |
+| nama      | varchar(25) | NO   |     | NULL    |                |
+| kota      | varchar(25) | NO   |     | NULL    |                |
+| kontak    | varchar(25) | NO   |     | NULL    |                |
++-----------+-------------+------+-----+---------+----------------+
+5 rows in set (0.462 sec)
+
+//mengisi data di tabel vendor
+MariaDB [tokosib5]> INSERT INTO vendor (nomor, nama, kota, kontak) VALUES
+    -> ('C01', 'Cust A', 'Bandung', '0876'),
+    -> ('C02', 'Cust B', 'Jakarta', '0897'),
+    -> ('C03', 'Cust C', 'Depok', '0856'),
+    -> ('C04', 'Cust D', 'Tangerang', '0889'),
+    -> ('C05', 'Cust E', 'Bekasi', '0879');
+Query OK, 5 rows affected (1.613 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+//melihat data di dalam tabel
+MariaDB [tokosib5]> select * from vendor;
++-----------+-------+--------+-----------+--------+
+| vendor_id | nomor | nama   | kota      | kontak |
++-----------+-------+--------+-----------+--------+
+|         1 | C01   | Cust A | Bandung   | 0876   |
+|         2 | C02   | Cust B | Jakarta   | 0897   |
+|         3 | C03   | Cust C | Depok     | 0856   |
+|         4 | C04   | Cust D | Tangerang | 0889   |
+|         5 | C05   | Cust E | Bekasi    | 0879   |
++-----------+-------+--------+-----------+--------+
+5 rows in set (0.066 sec)
+
+//membuat tabel pembelian dan me references ke tabel vendor
+MariaDB [tokosib5]> create table pembelian(
+    -> pembelian_id INT PRIMARY KEY AUTO_INCREMENT,
+    -> tanggal DATE,
+    -> nomor VARCHAR(20),
+    -> produk_id INT,
+    -> jumlah INT,
+    -> harga DECIMAL(10,5),
+    -> vendor_id INT,
+    -> FOREIGN KEY (vendor_id) REFERENCES vendor(vendor_id));
+Query OK, 0 rows affected (0.950 sec)
+
+//melihat desc tabel pembelian
+MariaDB [tokosib5]> desc pembelian;
++--------------+---------------+------+-----+---------+----------------+
+| Field        | Type          | Null | Key | Default | Extra          |
++--------------+---------------+------+-----+---------+----------------+
+| pembelian_id | int(11)       | NO   | PRI | NULL    | auto_increment |
+| tanggal      | date          | YES  |     | NULL    |                |
+| nomor        | varchar(20)   | YES  |     | NULL    |                |
+| produk_id    | int(11)       | YES  |     | NULL    |                |
+| jumlah       | int(11)       | YES  |     | NULL    |                |
+| harga        | decimal(10,5) | YES  |     | NULL    |                |
+| vendor_id    | int(11)       | YES  | MUL | NULL    |                |
++--------------+---------------+------+-----+---------+----------------+
+7 rows in set (0.043 sec)
+
+//mengisi data di tabel pembelian
+MariaDB [tokosib5]> INSERT INTO pembelian (tanggal, nomor, produk_id, jumlah, harga, vendor_id) VALUES
+    -> ('2023-09-15', 1, 6, 4, 100.00,1),
+    -> ('2023-09-17', 2, 7, 6, 200.00,2),
+    -> ('2023-09-20', 3, 8, 5, 300.00,3),
+    -> ('2023-09-25', 4, 9, 7, 400.00,4),
+    -> ('2023-10-05', 5, 10, 3, 500.00,5);
+Query OK, 5 rows affected (0.133 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+//melihat data didalam tabel pembelian
+MariaDB [tokosib5]> select * from pembelian;
++--------------+------------+-------+-----------+--------+-----------+-----------+
+| pembelian_id | tanggal    | nomor | produk_id | jumlah | harga     | vendor_id |
++--------------+------------+-------+-----------+--------+-----------+-----------+
+|            1 | 2023-09-15 | 1     |         6 |      4 | 100.00000 |         1 |
+|            2 | 2023-09-17 | 2     |         7 |      6 | 200.00000 |         2 |
+|            3 | 2023-09-20 | 3     |         8 |      5 | 300.00000 |         3 |
+|            4 | 2023-09-25 | 4     |         9 |      7 | 400.00000 |         4 |
+|            5 | 2023-10-05 | 5     |        10 |      3 | 500.00000 |         5 |
++--------------+------------+-------+-----------+--------+-----------+-----------+
+5 rows in set (0.002 sec)
+

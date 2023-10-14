@@ -1,0 +1,45 @@
+//worksheet no 1
+MariaDB [dbpos]> select pesanan.id, pesanan.tanggal, pesanan.total, pelanggan.kode, pelanggan.nama, kartu.nama as nama_kartu, 
+kartu.diskon from pesanan inner join pelanggan on pesanan.pelanggan_id = pelanggan.id inner join kartu on pelanggan.kartu_id = kartu.id;
++----+------------+-------+------+---------------+---------------+--------+
+| id | tanggal    | total | kode | nama          | nama_kartu    | diskon |
++----+------------+-------+------+---------------+---------------+--------+
+|  4 | 2023-10-14 |     1 | C003 | Sekar         | Gold Utama    |   0.05 |
+|  5 | 2023-09-03 |     3 | C005 | Arsy          | Gold Utama    |   0.05 |
+| 10 | 2023-10-01 |     3 | C010 | Bilkis        | Gold Utama    |   0.05 |
+|  1 | 2023-10-01 |     2 | C002 | Pandan Wangi  | Platinum Jaya |    0.1 |
+|  3 | 2023-10-03 |     3 | C004 | Swandaru Geni | Platinum Jaya |    0.1 |
+|  7 | 2023-10-14 |     3 | C007 | Razan         | Platinum Jaya |    0.1 |
+|  2 | 2023-09-04 |     1 | C001 | Agung Sedayu  | Silver        |  0.025 |
+|  8 | 2023-09-10 |     2 | C008 | Aisyaa        | Silver        |  0.025 |
+|  6 | 2023-10-09 |     2 | C006 | Rasya         | Non Member    |      0 |
+|  9 | 2023-10-12 |     2 | C009 | Taufik        | Non Member    |      0 |
++----+------------+-------+------+---------------+---------------+--------+
+10 rows in set (0.040 sec)
+
+//worksheet no 2
+MariaDB [dbpos]> select pembelian.id, pembelian.tanggal, pembelian.nomor, pembelian.jumlah, pembelian.harga, produk.nama as nama_produk, vendor.nama as nama_vendor, vendor.kontak from pembelian inner join produk on pembelian.produk_id = produk_id inner join vendor limit 10;
++----+------------+-------+--------+--------+------------------+-------------+--------+
+| id | tanggal    | nomor | jumlah | harga  | nama_produk      | nama_vendor | kontak |
++----+------------+-------+--------+--------+------------------+-------------+--------+
+|  1 | 2023-10-01 | 1     |      1 | 100000 | Televisi 21 inch | Sari        | 0887   |
+|  2 | 2023-10-14 | 2     |      2 | 500000 | Televisi 21 inch | Sari        | 0887   |
+|  3 | 2023-09-10 | 3     |      2 | 750000 | Televisi 21 inch | Sari        | 0887   |
+|  1 | 2023-10-01 | 1     |      1 | 100000 | Televisi 21 inch | Bisma       | 0896   |
+|  2 | 2023-10-14 | 2     |      2 | 500000 | Televisi 21 inch | Bisma       | 0896   |
+|  3 | 2023-09-10 | 3     |      2 | 750000 | Televisi 21 inch | Bisma       | 0896   |
+|  1 | 2023-10-01 | 1     |      1 | 100000 | Televisi 21 inch | Natas       | 08889  |
+|  2 | 2023-10-14 | 2     |      2 | 500000 | Televisi 21 inch | Natas       | 08889  |
+|  3 | 2023-09-10 | 3     |      2 | 750000 | Televisi 21 inch | Natas       | 08889  |
+|  1 | 2023-10-01 | 1     |      1 | 100000 | Televisi 40 inch | Sari        | 0887   |
++----+------------+-------+--------+--------+------------------+-------------+--------+
+10 rows in set (0.001 sec)
+
+//worksheet no 3
+MariaDB [dbpos]> select pesanan.id, pesanan.tanggal, pesanan.total,
+    -> pelanggan.nama as nama_pelanggan,
+    -> produk.kode, produk.nama as nama_produk,
+    -> jenis_produk.nama as nama_jenisproduk,
+    -> pesanan_items.qty, pesanan_items.harga as harga_jual
+    -> from pesanan inner join pesanan.pelanggan.nama = pelanggan_id;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '.nama = pelanggan_id' at line 6

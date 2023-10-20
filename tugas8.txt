@@ -1,0 +1,101 @@
+WORKSHEET 6
+soal 6.1
+
+//3.	Buat fungsi kategori_harga dengan parameter yang menerima inputan argument tipe data double 
+dan mengembalikan tipe data string kategori harga berdasarkan: 
+●	0 – 500rb : murah
+●	500rb – 3 juta : sedang
+●	3jt – 10 juta : mahal 
+●	> 10 juta : sangat mahal
+
+MariaDB [dbpos2]> delimiter ;
+MariaDB [dbpos2]> select kode, nama, harga_beli, kategori_harga(harga_beli) as kategori_harga_beli from produk;
++------+--------------------+------------+---------------------+
+| kode | nama               | harga_beli | kategori_harga_beli |
++------+--------------------+------------+---------------------+
+| TV01 | Televisi 21 inch   |    3500000 | mahal               |
+| TV02 | Televisi 40 inch   |    5500000 | mahal               |
+| K001 | Kulkas 2 pintu     |    3500000 | mahal               |
+| M001 | Meja Makan         |     500000 | murah               |
+| TK01 | Teh Kotak          |       3000 | murah               |
+| PC01 | PC Desktop HP      |    7000000 | mahal               |
+| TB01 | Teh Botol          |       2000 | murah               |
+| AC01 | Notebook Acer      |    8000000 | mahal               |
+| LN01 | Notebook Lenovo    |    9000000 | mahal               |
+| L004 | Laptop HP          |   12000000 | sangat mahal        |
+| TV03 | Televisi LG        |    4000000 | mahal               |
+| LA01 | Laptop Asus Type 3 |    3000000 | sedang              |
+| TB1  | Teh Botol          |       5000 | murah               |
++------+--------------------+------------+---------------------+
+13 rows in set (0.062 sec)
+
+soal 6.2
+//1.	Buatlah bisnis proses pembayaran dengan menggunakan trigers, dengan skenario sebagai berikut :
+- pelanggan memesan didalam table pesanan 
+- dilanjutkan dengan proses pembayaran di table pembayaran
+- didalam table pembayaran tambahkan kolom status_pembayaran
+- jika pesanan sudah dibayar maka status pembayaran akan berubah menjadi lunas 
+
+MariaDB [dbpos2]> Create TRIGGER cek_pembayaran before insert on pembayaran
+    -> for each row
+    -> begin
+    -> declare total_bayar decimal(10,2);
+    -> declare total_pesanan decimal(10,2);
+    -> select sum(jumlah) into total_bayar from pembayaran where pesanan_id = new.pesanan_id;
+    -> select total into total_pesanan from pesanan where id = new.pesanan_id;
+    -> if total_bayar + new.jumlah >= total_pesanan then
+    -> set new.status_pembayaran = 'Lunas';
+    -> end if;
+    -> End $$
+Query OK, 0 rows affected (0.846 sec)
+MariaDB [dbpos2]> insert into pembayaran (nokuitansi, tanggal, jumlah, ke, pesanan_id,
+    -> status_pembayaran) values ('MD004', '2023-10-10', 15000,1,2, '');
+Query OK, 1 row affected (0.409 sec)
+
+MariaDB [dbpos2]> select * from pembayaran;
++----+------------+------------+--------+------+------------+-------------------+
+| id | nokuitansi | tanggal    | jumlah | ke   | pesanan_id | status_pembayaran |
++----+------------+------------+--------+------+------------+-------------------+
+|  1 | T01        | 2023-07-09 |      2 |  200 |          1 | NULL              |
+|  2 | T02        | 2023-09-09 |      1 |  300 |          2 | NULL              |
+|  3 | T03        | 2023-08-04 |      2 |  500 |          3 | NULL              |
+|  4 | MD004      | 2023-10-10 |  15000 |    1 |          2 |                   |
++----+------------+------------+--------+------+------------+-------------------+
+4 rows in set (0.001 sec)
+
+
+
+//2.	Buatlah Stored Procedure dengan nama kurangi_stok untuk mengurangi stok produk. 
+Stok berkurang sesuai dengan jumlah pesanan produk.
+MariaDB [dbpos2]> delimiter $$
+MariaDB [dbpos2]> create procedure kurangi_stok(in produk_id int, in jumlah_pesanan int)
+    -> begin
+    -> declare stok_produk int;
+    -> select stok into stok_produk from produk where id = produk_id;
+    -> set stok_produk = stok_produk - jumlah_pesanan;
+    -> if stok_produk < 0 then
+    -> set stok_produk = 0;
+    -> end if;
+    -> update produk set stok = stok_produk where id = produk_id;
+    -> end $$
+Query OK, 0 rows affected (0.160 sec)
+
+MariaDB [dbpos2]> delimiter ;
+MariaDB [dbpos2]> call kurangi_stok(4,2);
+Query OK, 2 rows affected (0.120 sec)
+
+//3.	Buatlah Trigger dengan nama trig_kurangi_stok yang akan mengurangi stok produk jika terjadi transaksi pesanan oleh pelanggan 
+(memanggil stored procedure kurangi_stok soal no 1).
+Trigger ini aktif setelah trigger after_pesanan_items_insert (trigger pada contoh 3).
+DELIMITER$$
+CREATE TRIGGER trig_kurangi_stok AFTER INSERT ON pesanan_items
+FOR EACH ROW
+BEGIN
+    DECLARE produk_id INT;
+    DECLARE qty INT;
+
+    SELECT NEW.produk_id, NEW.qty INTO produk_id, qty;
+
+    CALL kurangi_stok(produk_id, qty);
+END$$
+DELIMITER ;
